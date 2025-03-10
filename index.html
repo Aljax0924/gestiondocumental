@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Procesos de la Gestión de Archivos</title>
+    <style>
+        :root {
+            --forest-green: #2c5f2d;
+            --white: #ffffff;
+            --terracotta: #c97c5d;
+            --light-green: #97bc62;
+            --cream: #fffaeb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: var(--cream);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--forest-green);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--terracotta);
+        }
+        
+        .burger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .burger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--white);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("images/banner.jpeg");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 60px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        .hero1 {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("images/Organigrama.png");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 60px;
+        }
+        
+        .hero1 h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero1 p {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--terracotta);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #b66c4d;
+        }
+        
+        /* Sections common */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--forest-green);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: var(--terracotta);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .product-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--forest-green);
+        }
+        
+        .product-info p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .product-info .btn {
+            font-size: 14px;
+            padding: 8px 20px;
+        }
+        
+        /* Mission & Vision Section */
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .mission-card, .vision-card {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mission-card h3, .vision-card h3 {
+            color: var(--forest-green);
+            font-size: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .mission-card h3::after, .vision-card h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background-color: var(--terracotta);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .mission-card::before, .vision-card::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(201, 124, 93, 0.1);
+            border-radius: 50%;
+            top: -50px;
+            right: -50px;
+        }
+        
+        /* History Section */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--forest-green);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--white);
+            border: 4px solid var(--terracotta);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: var(--white);
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .year {
+            font-weight: 700;
+            color: var(--terracotta);
+            margin-bottom: 10px;
+        }
+        
+        /* Impact Section */
+        .map.container {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("images/local.jpeg");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 60px;
+        }
+        
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial p {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--forest-green);
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 40px;
+        }
+        
+        .contact-form {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-form h3 {
+            color: var(--forest-green);
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            height: 120px;
+        }
+        
+        /* Blog Preview */
+        .blog-preview {
+            padding: 60px 0;
+            background-color: var(--light-green);
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .blog-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .blog-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .blog-content h3 {
+            margin-bottom: 10px;
+            color: var(--forest-green);
+        }
+        
+        .blog-content p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .blog-date {
+            font-size: 14px;
+            color: var(--terracotta);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--forest-green);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 2px;
+            background-color: var(--terracotta);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--terracotta);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                right: 0;
+                height: 92vh;
+                top: 8vh;
+                background-color: var(--forest-green);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 50%;
+                transform: translateX(100%);
+                transition: transform 0.5s ease-in;
+                z-index: 5;
+            }
+            
+            .nav-links li {
+                opacity: 0;
+                margin: 20px 0;
+            }
+            
+            .burger {
+                display: block;
+            }
+            
+            .nav-active {
+                transform: translateX(0%);
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0%;
+            }
+            
+            .timeline-item:nth-child(odd)::after,
+            .timeline-item:nth-child(even)::after {
+                left: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .section-title h2 {
+                font-size: 28px;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .mission-vision {
+                grid-template-columns: 1fr;
+            }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .definicion {
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">GD</a>
+                <ul class="nav-links">
+                    <li><a href="#planeacion">Planeación</a></li>
+                    <li><a href="#produccion">Producción</a></li>
+                    <li><a href="#gestion">Gestión y Trámite</a></li>
+                    <li><a href="#organizacion">Organización</a></li>
+                    <li><a href="#transferencia">Transferencia</a></li>
+                    <li><a href="#disposicion">Disposición</a></li>
+                    <li><a href="#preservacion">Preservación</a></li>
+                    <li><a href="#valoracion">Valoración</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <section class="planeacion" id="planeacion">
+    <table> 
+    <tr>    
+    <th><h1><strong>PROCESOS DE LA GESIÓN DOCUMENTAL</strong></h1></th>
+    </tr>
+    <tr>
+    <th><ul>La gestión documental es un conjunto de procesos que regulan la creación, organización, acceso, conservación y disposición de los documentos en una organización. Asegura que la información esté disponible, sea confiable y cumpla con requisitos legales y archivísticos.</ul></th>
+    </tr>    
+</table>
+    <table>
+        <tr>
+    <th><h1>Proceso 1: Planeación</h1></th>
+        </tr>
+    <th><ul><strong>Definición:</strong> Fase estratégica que diseña políticas, normativas y procedimientos para la gestión documental, asegurando su correcta administración durante todo el ciclo de vida.</ul></th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Definición</th>
+            <th>Pasos a Paso</th>
+        </tr>
+        <tr>
+            <td><strong>Diagnóstico documental</strong></td>
+            <td class="definicion">Evaluación del estado actual de documentos y sistemas de archivo</td>
+            <td>
+                <ul>
+                    <li>Realizar inventario de documentos existentes</li>
+                    <li>Evaluar sistemas de archivo utilizados</li>
+                    <li>Identificar problemas y necesidades</li>
+                    <li>Analizar cumplimiento normativo</li>
+                    <li>Elaborar informe con hallazgos</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Definición de políticas y normativas</strong></td>
+            <td class="definicion">Creación de reglas para gestión documental</td>
+            <td>
+                <ul>
+                    <li>Investigar normativas legales</li>
+                    <li>Establecer reglas claras</li>
+                    <li>Redactar documento de políticas</li>
+                    <li>Validar con expertos</li>
+                    <li>Difundir y capacitar</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Elaboración de manuales y procedimientos</strong></td>
+            <td class="definicion">Redacción de guías para gestión documental</td>
+            <td>
+                <ul>
+                    <li>Identificar procesos clave</li>
+                    <li>Desarrollar guías detalladas</li>
+                    <li>Revisar con expertos</li>
+                    <li>Distribuir el manual</li>
+                    <li>Actualizar periódicamente</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Asignación de roles y responsabilidades</strong></td>
+            <td class="definicion">Identificación de responsables en gestión documental</td>
+            <td>
+                <ul>
+                    <li>Identificar cargos relacionados</li>
+                    <li>Definir funciones específicas</li>
+                    <li>Asignar responsables</li>
+                    <li>Documentar estructura organizativa</li>
+                    <li>Capacitar a responsables</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Identificación de riesgos documentales</strong></td>
+            <td class="definicion">Análisis de amenazas a la documentación</td>
+            <td>
+                <ul>
+                    <li>Analizar posibles riesgos</li>
+                    <li>Establecer medidas preventivas</li>
+                    <li>Desarrollar plan de contingencia</li>
+                    <li>Implementar seguridad documental</li>
+                    <li>Monitorear gestión de riesgos</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Planificación de sistemas de gestión</strong></td>
+            <td class="definicion">Diseño de herramientas para gestión documental</td>
+            <td>
+                <ul>
+                    <li>Evaluar necesidades tecnológicas</li>
+                    <li>Diseñar herramientas y métodos</li>
+                    <li>Seleccionar software</li>
+                    <li>Implementar sistema</li>
+                    <li>Capacitar al personal</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Evaluación de recursos tecnológicos</strong></td>
+            <td class="definicion">Análisis de plataformas digitales</td>
+            <td>
+                <ul>
+                    <li>Analizar infraestructura existente</li>
+                    <li>Comparar opciones tecnológicas</li>
+                    <li>Seleccionar herramientas</li>
+                    <li>Implementar nuevas tecnologías</li>
+                    <li>Evaluar rendimiento</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Desarrollo de programas de capacitación</strong></td>
+            <td class="definicion">Creación de cursos para gestión documental</td>
+            <td>
+                <ul>
+                    <li>Identificar temas clave</li>
+                    <li>Diseñar programas de formación</li>
+                    <li>Definir métodos de enseñanza</li>
+                    <li>Implementar capacitaciones</li>
+                    <li>Evaluar y mejorar programas</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</section>
+    <section class="produccion" id="produccion">
+    <table>
+        <tr>
+    <th><h1>Proceso 2: Producción</h1></th>
+        </tr>
+    <th><ul><strong>Definición:</strong> Comprende la creación, recepción y validación de documentos dentro de una organización, garantizando que sean correctos, legales y cumplan con estándares de calidad.</ul></th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Definición</th>
+            <th>Pasos a Paso</th>
+        </tr>
+        <tr>
+            <td><strong>Generación de documentos</strong></td>
+            <td class="definicion">Creación de documentos nuevos en formatos físicos o digitales</td>
+            <td>
+                <ul>
+                    <li>Determinar el tipo de documento a crear</li>
+                    <li>Elegir el formato adecuado (físico o digital)</li>
+                    <li>Aplicar normas de redacción y estilo</li>
+                    <li>Revisar la información antes de su emisión</li>
+                    <li>Guardar el documento en el sistema correspondiente</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Recepción de documentos externos</strong></td>
+            <td class="definicion">Registro y control de documentos enviados por otras entidades o clientes</td>
+            <td>
+                <ul>
+                    <li>Registrar el documento recibido en el sistema</li>
+                    <li>Verificar la autenticidad y validez del documento</li>
+                    <li>Clasificarlo según su tipo y destino</li>
+                    <li>Distribuirlo a la persona o área responsable</li>
+                    <li>Archivar una copia si es necesario</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Aplicación de normas de estilo y formato</strong></td>
+            <td class="definicion">Uso de reglas establecidas para la redacción y presentación de documentos</td>
+            <td>
+                <ul>
+                    <li>Establecer estándares de presentación documental</li>
+                    <li>Aplicar formatos predeterminados en los documentos</li>
+                    <li>Revisar que el documento cumpla con los estándares</li>
+                    <li>Aprobar la versión final con la persona responsable</li>
+                    <li>Almacenar el documento en la base de datos</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Firma y validación</strong></td>
+            <td class="definicion">Autorización oficial de documentos mediante firmas físicas o electrónicas</td>
+            <td>
+                <ul>
+                    <li>Verificar que el documento esté completo y correcto</li>
+                    <li>Obtener la firma física o digital del responsable</li>
+                    <li>Confirmar la validez legal del documento</li>
+                    <li>Registrar el documento firmado en el sistema</li>
+                    <li>Notificar a los involucrados sobre su aprobación</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Control de versiones</strong></td>
+            <td class="definicion">Registro de modificaciones para evitar el uso de versiones obsoletas</td>
+            <td>
+                <ul>
+                    <li>Asignar un número o código a cada versión del documento</li>
+                    <li>Registrar los cambios realizados en cada actualización</li>
+                    <li>Notificar a los usuarios sobre nuevas versiones</li>
+                    <li>Mantener una copia de las versiones anteriores</li>
+                    <li>Evitar el uso de versiones obsoletas</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Revisión de calidad documental</strong></td>
+            <td class="definicion">Verificación de claridad, completitud y corrección de documentos</td>
+            <td>
+                <ul>
+                    <li>Verificar que el documento sea claro y preciso</li>
+                    <li>Corregir errores de formato o contenido</li>
+                    <li>Validar con los responsables antes de su distribución</li>
+                    <li>Aprobar la versión final del documento</li>
+                    <li>Almacenar la versión definitiva en el sistema documental</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Uso de herramientas de automatización</strong></td>
+            <td class="definicion">Aplicación de software para agilizar la producción de documentos</td>
+            <td>
+                <ul>
+                    <li>Identificar herramientas digitales para optimizar procesos</li>
+                    <li>Implementar software de automatización documental</li>
+                    <li>Capacitar al personal en su uso</li>
+                    <li>Monitorear la eficiencia del sistema</li>
+                    <li>Ajustar el software según necesidades</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Creación de copias de respaldo</strong></td>
+            <td class="definicion">Generación de duplicados para evitar pérdidas de información</td>
+            <td>
+                <ul>
+                    <li>Definir una estrategia de respaldo documental</li>
+                    <li>Generar copias en servidores o nubes seguras</li>
+                    <li>Programar respaldos periódicos</li>
+                    <li>Verificar la integridad de las copias de seguridad</li>
+                    <li>Restaurar archivos en caso de pérdida de datos</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</section>
+    <section class="gestion" id="gestion">
+    <table>
+        <tr>
+    <th><h1>Proceso 3: Gestión y Trámite</h1></th>
+        </tr>
+    <th><ul><strong>Definición:</strong> Se encarga del flujo de documentos dentro de la organización, asegurando su acceso, distribución y seguimiento.</ul></th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Definición</th>
+            <th>Pasos a Paso</th>
+        </tr>
+        <tr>
+            <td><strong>Registro documental</strong></td>
+            <td class="definicion">Asignación de códigos o números de identificación para control documental</td>
+            <td>
+                <ul>
+                    <li>Asignar un código o identificador único</li>
+                    <li>Ingresar datos en el sistema de gestión documental</li>
+                    <li>Confirmar la correcta indexación</li>
+                    <li>Notificar a las áreas correspondientes</li>
+                    <li>Mantener actualizados los registros</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Distribución y circulación</strong></td>
+            <td class="definicion">Envío de documentos a las áreas o personas correspondientes</td>
+            <td>
+                <ul>
+                    <li>Identificar a los destinatarios</li>
+                    <li>Seleccionar el medio de distribución</li>
+                    <li>Enviar el documento de manera segura</li>
+                    <li>Confirmar la recepción</li>
+                    <li>Registrar la distribución en el sistema</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Seguimiento y trazabilidad</strong></td>
+            <td class="definicion">Monitoreo del estado y recorrido de los documentos</td>
+            <td>
+                <ul>
+                    <li>Establecer indicadores de seguimiento</li>
+                    <li>Registrar cada movimiento del documento</li>
+                    <li>Generar reportes periódicos</li>
+                    <li>Implementar alertas para documentos pendientes</li>
+                    <li>Realizar auditorías de cumplimiento</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Almacenamiento temporal</strong></td>
+            <td class="definicion">Ubicación de documentos antes de su uso final</td>
+            <td>
+                <ul>
+                    <li>Definir espacios físicos o digitales</li>
+                    <li>Etiquetar documentos con fechas y categorías</li>
+                    <li>Aplicar medidas de seguridad y acceso</li>
+                    <li>Revisar periódicamente la vigencia</li>
+                    <li>Transferir o eliminar según ciclo de vida</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Control de acceso</strong></td>
+            <td class="definicion">Restricción de acceso a documentos confidenciales</td>
+            <td>
+                <ul>
+                    <li>Identificar documentos con restricciones</li>
+                    <li>Definir niveles de seguridad y permisos</li>
+                    <li>Implementar autenticación en sistemas</li>
+                    <li>Monitorear accesos y modificaciones</li>
+                    <li>Actualizar permisos periódicamente</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Actualización de estados</strong></td>
+            <td class="definicion">Modificación del estatus según ciclo de vida</td>
+            <td>
+                <ul>
+                    <li>Definir estados del ciclo de vida</li>
+                    <li>Modificar el estado en el sistema</li>
+                    <li>Informar a los usuarios sobre cambios</li>
+                    <li>Registrar actualizaciones en el historial</li>
+                    <li>Revisar periódicamente el estado</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Notificación de vencimientos</strong></td>
+            <td class="definicion">Alertas sobre fechas de caducidad o eliminación</td>
+            <td>
+                <ul>
+                    <li>Identificar documentos con fechas de vencimiento</li>
+                    <li>Programar alertas en el sistema</li>
+                    <li>Notificar a las áreas responsables</li>
+                    <li>Confirmar acciones antes del vencimiento</li>
+                    <li>Registrar actualización o eliminación</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Integración con sistemas de gestión</strong></td>
+            <td class="definicion">Uso de plataformas digitales para el manejo documental</td>
+            <td>
+                <ul>
+                    <li>Analizar compatibilidad con otros sistemas</li>
+                    <li>Configurar sincronización entre plataformas</li>
+                    <li>Capacitar a los usuarios</li>
+                    <li>Realizar pruebas de validación</li>
+                    <li>Monitorear y optimizar funcionamiento</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</section>
+    <section class="organizacion" id="organizacion">
+    <table>
+        <tr>
+    <th><h1>Proceso 4: Organización</h1></th>
+        </tr>
+    <th><ul><strong>Definición:</strong> Estructura los documentos para su rápida localización y acceso.</ul></th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Definición</th>
+            <th>Pasos a Paso</th>
+        </tr>
+        <tr>
+            <td><strong>Clasificación documental</strong></td>
+            <td class="definicion">Agrupación de documentos según categorías establecidas</td>
+            <td>
+                <ul>
+                    <li>Definir criterios de clasificación (tema, área, tipo)</li>
+                    <li>Etiquetar y agrupar documentos</li>
+                    <li>Aplicar normas de organización</li>
+                    <li>Revisar periódicamente la clasificación</li>
+                    <li>Documentar el esquema de clasificación</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Indexación</strong></td>
+            <td class="definicion">Asignación de etiquetas o metadatos para facilitar búsquedas</td>
+            <td>
+                <ul>
+                    <li>Identificar palabras clave y metadatos</li>
+                    <li>Asignar etiquetas descriptivas</li>
+                    <li>Registrar en bases de datos</li>
+                    <li>Verificar precisión con pruebas de búsqueda</li>
+                    <li>Actualizar la indexación según cambios</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Ordenación</strong></td>
+            <td class="definicion">Disposición sistemática de documentos en archivos o sistemas</td>
+            <td>
+                <ul>
+                    <li>Establecer estructura de orden lógico</li>
+                    <li>Aplicar reglas de ordenamiento</li>
+                    <li>Implementar herramientas de búsqueda</li>
+                    <li>Revisar coherencia periódicamente</li>
+                    <li>Corregir inconsistencias en la disposición</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Descripción archivística</strong></td>
+            <td class="definicion">Creación de registros detallados sobre documentos</td>
+            <td>
+                <ul>
+                    <li>Recopilar información contextual del documento</li>
+                    <li>Crear registros descriptivos en el sistema</li>
+                    <li>Aplicar normas archivísticas</li>
+                    <li>Vincular documentos relacionados</li>
+                    <li>Actualizar descripciones ante cambios</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Identificación de series documentales</strong></td>
+            <td class="definicion">Agrupación de documentos con características similares</td>
+            <td>
+                <ul>
+                    <li>Analizar relación temática o funcional</li>
+                    <li>Agrupar en series documentales</li>
+                    <li>Registrar las series en el sistema</li>
+                    <li>Aplicar criterios de conservación/eliminación</li>
+                    <li>Actualizar identificación periódicamente</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Normalización de nomenclaturas</strong></td>
+            <td class="definicion">Uso de nombres estandarizados para documentos</td>
+            <td>
+                <ul>
+                    <li>Definir reglas de nombramiento</li>
+                    <li>Aplicar convenciones en el archivo</li>
+                    <li>Documentar las reglas de nomenclatura</li>
+                    <li>Capacitar al personal</li>
+                    <li>Revisar coherencia en la gestión documental</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Codificación de documentos</strong></td>
+            <td class="definicion">Asignación de códigos únicos para identificación</td>
+            <td>
+                <ul>
+                    <li>Asignar códigos únicos a cada documento</li>
+                    <li>Registrar en el sistema documental</li>
+                    <li>Garantizar coherencia entre código y documento</li>
+                    <li>Implementar herramientas de búsqueda por código</li>
+                    <li>Verificar exactitud periódicamente</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Aplicación de estándares archivísticos</strong></td>
+            <td class="definicion">Implementación de normas internacionales de archivo</td>
+            <td>
+                <ul>
+                    <li>Identificar normas nacionales e internacionales</li>
+                    <li>Implementar normas en la organización</li>
+                    <li>Capacitar al personal en cumplimiento</li>
+                    <li>Monitorear el cumplimiento normativo</li>
+                    <li>Actualizar procedimientos según cambios</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</section>
+    <section class="transferencia" id="transferencia">
+    <table>
+        <tr>
+    <th><h1>Proceso 5: Transferencia</h1></th>
+        </tr>
+    <th><ul><strong>Definición:</strong> Proceso mediante el cual los documentos pasan de una fase activa a intermedia o histórica.</ul></th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Definición</th>
+            <th>Pasos a Paso</th>
+        </tr>
+        <tr>
+            <td><strong>Transferencia primaria</strong></td>
+            <td class="definicion">Envío de documentos dentro de la misma organización</td>
+            <td>
+                <ul>
+                    <li>Identificar documentos a transferir</li>
+                    <li>Preparar documentos cumpliendo requisitos</li>
+                    <li>Registrar la transferencia en el sistema</li>
+                    <li>Transportar al nuevo destino</li>
+                    <li>Confirmar recepción y actualizar registros</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Transferencia secundaria</strong></td>
+            <td class="definicion">Envío a archivos históricos o depósitos finales</td>
+            <td>
+                <ul>
+                    <li>Determinar documentos de valor histórico</li>
+                    <li>Preparar inventario de transferencia</li>
+                    <li>Solicitar autorización</li>
+                    <li>Enviar a archivos históricos</li>
+                    <li>Registrar y realizar seguimiento</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Verificación de requisitos</strong></td>
+            <td class="definicion">Revisión de documentos antes del traslado</td>
+            <td>
+                <ul>
+                    <li>Revisar criterios de transferencia</li>
+                    <li>Validar ausencia de documentos faltantes</li>
+                    <li>Organizar según clasificación</li>
+                    <li>Elaborar informe de documentos listos</li>
+                    <li>Obtener aprobación del área responsable</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Elaboración de inventarios</strong></td>
+            <td class="definicion">Registro detallado de documentos transferidos</td>
+            <td>
+                <ul>
+                    <li>Listar documentos con información clave</li>
+                    <li>Asignar identificación única</li>
+                    <li>Especificar destino y responsable</li>
+                    <li>Revisar exactitud del inventario</li>
+                    <li>Guardar copia en el sistema</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Control de recepción en destino</strong></td>
+            <td class="definicion">Validación de documentos recibidos</td>
+            <td>
+                <ul>
+                    <li>Verificar coincidencia con el inventario</li>
+                    <li>Revisar estado de conservación</li>
+                    <li>Registrar recepción en el sistema</li>
+                    <li>Ubicar documentos en el archivo de destino</li>
+                    <li>Notificar al área de origen</li>
+                    <li>Actualizar estado del documento</li>
+                    <li>Generar acta de recepción</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Validación de documentos</strong></td>
+            <td class="definicion">Comprobación de integridad documental</td>
+            <td>
+                <ul>
+                    <li>Revisar corrección de documentos</li>
+                    <li>Confirmar ausencia de duplicados</li>
+                    <li>Corroborar legibilidad y estado físico</li>
+                    <li>Verificar precisión de metadatos</li>
+                    <li>Asegurar cumplimiento de tiempos de retención</li>
+                    <li>Solicitar visto bueno del área documental</li>
+                    <li>Registrar validación en el sistema</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Registro de transferidos</strong></td>
+            <td class="definicion">Inscripción en bases de datos</td>
+            <td>
+                <ul>
+                    <li>Asignar código único</li>
+                    <li>Registrar fecha y motivo de transferencia</li>
+                    <li>Actualizar estatus en la base de datos</li>
+                    <li>Asociar con inventario de transferencia</li>
+                    <li>Generar informe de control interno</li>
+                    <li>Notificar al área de gestión documental</li>
+                    <li>Archivar copia del registro</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Comunicación entre áreas</strong></td>
+            <td class="definicion">Coordinación con otros departamentos</td>
+            <td>
+                <ul>
+                    <li>Notificar a áreas involucradas</li>
+                    <li>Coordinar fechas y horarios</li>
+                    <li>Designar responsables</li>
+                    <li>Facilitar información sobre documentos</li>
+                    <li>Resolver inconsistencias</li>
+                    <li>Confirmar comunicación a todos los departamentos</li>
+                    <li>Finalizar con acta de comunicación</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</section>
+<section class="disposicion" id="disposicion">
+    <table>
+        <tr>
+    <th><h1>Proceso 6: Disposición Documental</h1></th>
+        </tr>
+    <th><ul><strong>Definición:</strong> Determina el destino final de los documentos según su valor administrativo, legal, fiscal, contable o histórico. Este proceso define si los documentos deben conservarse, eliminarse o transferirse a un archivo histórico.</ul></th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Definición</th>
+            <th>Pasos a Paso</th>
+        </tr>
+        <tr>
+            <td><strong>Aplicación de TRD</strong></td>
+            <td class="definicion">Uso de tablas de retención para definir tiempos de conservación</td>
+            <td>
+                <ul>
+                    <li>Identificar la serie documental correspondiente</li>
+                    <li>Consultar TRD para determinar tiempo de conservación</li>
+                    <li>Verificar destino (conservación, eliminación, transferencia)</li>
+                    <li>Clasificar según disposición final</li>
+                    <li>Obtener autorización de la entidad responsable</li>
+                    <li>Registrar acción en el sistema</li>
+                    <li>Ejecutar la disposición según TRD</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Eliminación de documentos obsoletos</strong></td>
+            <td class="definicion">Destrucción segura de documentos sin valor legal o histórico</td>
+            <td>
+                <ul>
+                    <li>Seleccionar documentos con tiempo de retención cumplido</li>
+                    <li>Revisar ausencia de valor legal/fiscal/histórico</li>
+                    <li>Solicitar autorización de eliminación</li>
+                    <li>Generar listado detallado</li>
+                    <li>Aplicar métodos seguros (trituración, incineración, etc.)</li>
+                    <li>Elaborar acta de eliminación</li>
+                    <li>Registrar en el sistema documental</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Migración de formatos</strong></td>
+            <td class="definicion">Conversión de documentos a formatos digitales o actualizados</td>
+            <td>
+                <ul>
+                    <li>Identificar documentos a convertir</li>
+                    <li>Seleccionar formato adecuado</li>
+                    <li>Garantizar integridad del original</li>
+                    <li>Aplicar herramientas de conversión (escaneo, OCR, etc.)</li>
+                    <li>Revisar calidad del documento convertido</li>
+                    <li>Actualizar metadatos en el sistema</li>
+                    <li>Eliminar o almacenar en nuevo formato</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Selección de conservación permanente</strong></td>
+            <td class="definicion">Identificación de documentos con valor histórico, legal o cultural</td>
+            <td>
+                <ul>
+                    <li>Identificar documentos con valor permanente</li>
+                    <li>Aplicar criterios de valoración documental</li>
+                    <li>Clasificar en archivos históricos/administrativos</li>
+                    <li>Proteger con medidas de conservación</li>
+                    <li>Registrar selección en el sistema</li>
+                    <li>Trasladar a archivo de conservación permanente</li>
+                    <li>Actualizar registros y accesos</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Autorización de disposición</strong></td>
+            <td class="definicion">Obtención de permisos legales para eliminar, transferir o conservar</td>
+            <td>
+                <ul>
+                    <li>Generar solicitud formal</li>
+                    <li>Incluir listado detallado de documentos</li>
+                    <li>Presentar al comité de gestión documental</li>
+                    <li>Esperar revisión y aprobación</li>
+                    <li>Obtener autorización escrita</li>
+                    <li>Ejecutar la disposición aprobada</li>
+                    <li>Archivar la autorización</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Supervisión de eliminación segura</strong></td>
+            <td class="definicion">Control del proceso de destrucción de documentos</td>
+            <td>
+                <ul>
+                    <li>Verificar coincidencia con lista autorizada</li>
+                    <li>Asegurar métodos adecuados de eliminación</li>
+                    <li>Supervisar cada etapa de destrucción</li>
+                    <li>Confirmar ausencia de copias no autorizadas</li>
+                    <li>Registrar en informe detallado</li>
+                    <li>Obtener certificación del proveedor</li>
+                    <li>Actualizar registros documentales</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Certificación de destrucción</strong></td>
+            <td class="definicion">Creación de acta oficial de eliminación</td>
+            <td>
+                <ul>
+                    <li>Elaborar acta con detalles de destrucción</li>
+                    <li>Incluir fecha, método y responsables</li>
+                    <li>Solicitar firmas de supervisión</li>
+                    <li>Adjuntar evidencia (fotos, registros)</li>
+                    <li>Guardar en el sistema documental</li>
+                    <li>Notificar a áreas involucradas</li>
+                    <li>Actualizar base de datos</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Evaluación de impacto</strong></td>
+            <td class="definicion">Análisis de efectos de la disposición en la institución</td>
+            <td>
+                <ul>
+                    <li>Analizar impacto en procesos administrativos</li>
+                    <li>Revisar posibles requerimientos futuros</li>
+                    <li>Consultar con áreas involucradas</li>
+                    <li>Comparar cumplimiento normativo</li>
+                    <li>Elaborar informe de evaluación</li>
+                    <li>Recomendar mejoras en gestión documental</li>
+                    <li>Ajustar políticas y procedimientos</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</section>
+<section class="preservacion" id="preservacion">
+    <table>
+        <tr>
+    <th><h1>Proceso 7: Preservación</h1></th>
+        </tr>
+    <th><ul><strong>Definición:</strong> Garantiza que los documentos con valor permanente se conserven en buen estado, protegiéndolos contra deterioro físico, tecnológico o ambiental.
+    </ul></th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Definición</th>
+            <th>Pasos a Paso</th>
+        </tr>
+        <tr>
+            <td><strong>Digitalización y respaldo</strong></td>
+            <td class="definicion">Conversión de documentos físicos a digitales y almacenamiento seguro</td>
+            <td>
+                <ul>
+                    <li>Seleccionar documentos prioritarios para digitalizar</li>
+                    <li>Definir formato digital adecuado (PDF/A, TIFF, etc.)</li>
+                    <li>Escanear en alta calidad y aplicar OCR</li>
+                    <li>Realizar copias de seguridad en múltiples ubicaciones</li>
+                    <li>Implementar control de versiones</li>
+                    <li>Verificar accesibilidad y normas archivísticas</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Control ambiental</strong></td>
+            <td class="definicion">Regulación de condiciones en espacios de almacenamiento físico</td>
+            <td>
+                <ul>
+                    <li>Regular temperatura (18-22°C) y humedad (40-50%)</li>
+                    <li>Evitar exposición a luz directa y contaminantes</li>
+                    <li>Usar sistemas de ventilación y materiales de conservación</li>
+                    <li>Realizar inspecciones periódicas</li>
+                    <li>Capacitar al personal en buenas prácticas</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Revisión de soportes digitales</strong></td>
+            <td class="definicion">Evaluación de archivos digitales para evitar obsolescencia</td>
+            <td>
+                <ul>
+                    <li>Verificar accesibilidad e integridad de archivos</li>
+                    <li>Identificar formatos obsoletos y actualizarlos</li>
+                    <li>Reforzar seguridad con encriptación</li>
+                    <li>Realizar pruebas de recuperación de datos</li>
+                    <li>Documentar cambios en el sistema</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Restauración documental</strong></td>
+            <td class="definicion">Reparación de documentos físicos deteriorados</td>
+            <td>
+                <ul>
+                    <li>Identificar documentos dañados (humedad, rasgaduras, etc.)</li>
+                    <li>Aplicar técnicas de limpieza y restauración</li>
+                    <li>Encapsular en materiales libres de ácido</li>
+                    <li>Crear copias digitales para reducir manipulación</li>
+                    <li>Almacenar en condiciones óptimas</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Monitoreo de almacenamiento</strong></td>
+            <td class="definicion">Inspección constante de condiciones de conservación</td>
+            <td>
+                <ul>
+                    <li>Instalar sensores de temperatura y humedad</li>
+                    <li>Detectar signos de deterioro (moho, insectos, etc.)</li>
+                    <li>Asegurar funcionalidad de sistemas digitales</li>
+                    <li>Generar reportes periódicos</li>
+                    <li>Tomar acciones correctivas inmediatas</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Redundancia en copias</strong></td>
+            <td class="definicion">Creación de múltiples copias para minimizar riesgos</td>
+            <td>
+                <ul>
+                    <li>Crear copias en diferentes ubicaciones (nube, servidores, etc.)</li>
+                    <li>Proteger con cifrado y accesos controlados</li>
+                    <li>Programar actualizaciones automáticas</li>
+                    <li>Realizar pruebas de recuperación</li>
+                    <li>Mantener registro de todas las copias</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Tecnologías de preservación digital</strong></td>
+            <td class="definicion">Uso de herramientas avanzadas para protección digital</td>
+            <td>
+                <ul>
+                    <li>Aplicar metadatos estructurados</li>
+                    <li>Usar almacenamiento en la nube y blockchain</li>
+                    <li>Evitar obsolescencia mediante conversión de formatos</li>
+                    <li>Automatizar auditorías de integridad</li>
+                    <li>Actualizar tecnologías periódicamente</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Automatización de auditorías</strong></td>
+            <td class="definicion">Supervisión automatizada de integridad documental</td>
+            <td>
+                <ul>
+                    <li>Definir criterios de auditoría</li>
+                    <li>Configurar herramientas automatizadas</li>
+                    <li>Generar informes con hallazgos y acciones</li>
+                    <li>Comparar con versiones originales</li>
+                    <li>Notificar irregularidades a áreas responsables</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</section>
+    <section class="valoracion" id="valoracion">
+    <table>
+        <tr>
+    <th><h1>Proceso 8: Valoración</h1></th>
+        </tr>
+    <th><ul><strong>Definición:</strong> Evalúa la importancia de los documentos para determinar si deben conservarse, eliminarse o transferirse a un archivo histórico.</ul></th>
+    </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Actividad</th>
+            <th>Definición</th>
+            <th>Pasos a Paso</th>
+        </tr>
+        <tr>
+            <td><strong>Análisis del valor documental</strong></td>
+            <td class="definicion">Estudio de relevancia legal, administrativa, fiscal, contable o histórica</td>
+            <td>
+                <ul>
+                    <li>Identificar el documento y su contexto organizacional</li>
+                    <li>Clasificar su tipo de valor (legal, fiscal, histórico, etc.)</li>
+                    <li>Determinar uso y frecuencia de consulta</li>
+                    <li>Revisar relación con normativas aplicables</li>
+                    <li>Evaluar necesidad de conservación o eliminación</li>
+                    <li>Registrar resultados en un informe</li>
+                    <li>Someter a revisión de expertos</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Aplicación de criterios de retención</strong></td>
+            <td class="definicion">Uso de normas para decidir conservación o eliminación</td>
+            <td>
+                <ul>
+                    <li>Consultar Tablas de Retención Documental (TRD)</li>
+                    <li>Verificar plazos de conservación normativos</li>
+                    <li>Comparar con criterios establecidos</li>
+                    <li>Decidir destino (conservación, eliminación, transferencia)</li>
+                    <li>Registrar decisión en el sistema</li>
+                    <li>Realizar eliminación segura si aplica</li>
+                    <li>Notificar a responsables</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Identificación de valor patrimonial</strong></td>
+            <td class="definicion">Reconocimiento de documentos con importancia cultural o histórica</td>
+            <td>
+                <ul>
+                    <li>Analizar relevancia histórica o cultural</li>
+                    <li>Consultar expertos en patrimonio documental</li>
+                    <li>Revisar normativas de conservación histórica</li>
+                    <li>Clasificar en categoría especial</li>
+                    <li>Determinar condiciones de preservación óptimas</li>
+                    <li>Registrar en inventario patrimonial</li>
+                    <li>Garantizar acceso controlado</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Revisión de archivos intermedios</strong></td>
+            <td class="definicion">Análisis de documentos almacenados temporalmente</td>
+            <td>
+                <ul>
+                    <li>Seleccionar documentos en almacenamiento temporal</li>
+                    <li>Verificar estado de conservación y legibilidad</li>
+                    <li>Analizar necesidad administrativa actual</li>
+                    <li>Decidir transferencia a archivo histórico o eliminación</li>
+                    <li>Actualizar estatus en el sistema</li>
+                    <li>Elaborar informe de disposición final</li>
+                    <li>Notificar a responsables</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Generación de informes de valoración</strong></td>
+            <td class="definicion">Creación de reportes detallados sobre evaluación documental</td>
+            <td>
+                <ul>
+                    <li>Recolectar datos de análisis previos</li>
+                    <li>Estructurar informe con secciones claras</li>
+                    <li>Incluir evidencia (normativas, consultas a expertos)</li>
+                    <li>Validar con responsables de archivo</li>
+                    <li>Registrar en el sistema documental</li>
+                    <li>Socializar con áreas afectadas</li>
+                    <li>Archivar para futuras revisiones</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Consulta con expertos</strong></td>
+            <td class="definicion">Asesoría de especialistas en valoración documental</td>
+            <td>
+                <ul>
+                    <li>Identificar archivistas y especialistas</li>
+                    <li>Definir documentos que requieren evaluación especializada</li>
+                    <li>Coordinar reuniones o auditorías</li>
+                    <li>Exponer contexto e importancia de los documentos</li>
+                    <li>Solicitar recomendaciones de conservación</li>
+                    <li>Registrar observaciones en informes</li>
+                    <li>Aplicar cambios sugeridos</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Establecimiento de criterios de selección</strong></td>
+            <td class="definicion">Definición de reglas para conservación o descarte</td>
+            <td>
+                <ul>
+                    <li>Revisar normativas y regulaciones aplicables</li>
+                    <li>Definir criterios de conservación, eliminación y transferencia</li>
+                    <li>Validar con expertos</li>
+                    <li>Documentar en manuales o directrices</li>
+                    <li>Capacitar a responsables de gestión documental</li>
+                    <li>Aplicar criterios en evaluaciones</li>
+                    <li>Actualizar periódicamente</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Revisión periódica de criterios</strong></td>
+            <td class="definicion">Actualización de políticas de valoración</td>
+            <td>
+                <ul>
+                    <li>Programar revisiones regulares</li>
+                    <li>Analizar cambios en normativas o políticas internas</li>
+                    <li>Comparar con tendencias archivísticas</li>
+                    <li>Evaluar efectividad de decisiones previas</li>
+                    <li>Modificar criterios según necesidades</li>
+                    <li>Registrar cambios en documentos oficiales</li>
+                    <li>Capacitar al personal en nuevos criterios</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+    </section>
+    <footer style="
+    background: #f5f5f5;
+    padding: 20px;
+    text-align: center;
+    border-top: 2px solid #ddd;
+    margin-top: 40px;
+    font-size: 0.9em;
+    color: #555;
+">
+    <p>
+        © 2025 <strong>Alvaro Mendoza Saab</strong> - Todos los derechos reservados<br>
+        <span style="font-size: 0.8em; color: #777;">
+            Diseño y contenido creado por Alvaro Mendoza Saab para fines educativos y de gestión documental.
+        </span>
+    </p>
+</footer>
+</body>
+</html>
